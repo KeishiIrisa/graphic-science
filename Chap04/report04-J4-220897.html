@@ -1,0 +1,436 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title> Format for Report </title>
+</head>
+<body bgcolor="#ffffff">
+<basefont size="2">
+
+<h3>
+イベント処理 (第 4 回)
+</h3>
+
+<div align="right"> <table>
+<tr><th align="left"> 氏名       <td align="left"> 入佐 啓士
+<tr><th align="left"> クラス     <td align="left"> 理科 1 類 37 組
+<tr><th align="left"> 学生証番号 <td align="left"> J4-220897
+</table> </div>
+
+<h3>
+□課題4.0 - 4.3節 例 1: マウスイベントによる背景色の変更 background.py
+</h3>
+<h4> ○プログラムリスト </h4>
+<code> <pre>
+    (例題なので省略)
+</pre> </code>
+<h4> ○実行コマンド </h4>
+<samp> <pre>
+    $ python background.py
+</pre> </samp>
+<h4> ○実行結果 </h4>
+<samp> <pre>
+    (文字列の表示なし)
+    初期状態は緑色で、左クリックしている間は赤色になり、マウスを離すと緑色に戻った。
+</pre> </samp>
+<img src="background_1.png" WIDTH="50%">
+<img src="background_2.png" WIDTH="50%">
+<h4> ○考察 </h4>
+<blockquote>
+    今回は、canvas内でのマウスイベントに合わせて背景色を変更するプログラムを「Python 3.11.7, Sonoma 14.4.1」で走らせた。<br><br>
+    実行結果としては、想定通りマウスをクリックしている間は赤色の背景になっており、ユーザー入力によって状態が変更されるインタラクティブさが確認できた。<br><br>
+    今回初めて授業でglobal変数を学んだため、考察としてglobalキーワードを除いたプログラムを作成して、global変数の役割への理解を次のセクションで深めようと思う。
+</blockquote>
+<p>
+
+<h3>
+□課題4.0 - 4.3節 例 1-2: マウスイベントによる背景色の変更2 background_02.py
+</h3>
+<h4> ○プログラムリスト </h4>
+<code> <pre>
+    1  from tkinter import *                    # tkinterモジュールのimport
+    2
+    3  W, H = (200, 200)                        # canvasの幅と高さ
+    4
+    5  def pressed(event):                      # Button1 pressed コールバック関数         # 大域変数 canvas
+    6    canvas.create_rectangle((2, 2), (W+3, H+3), outline='', fill='#ff0000')
+    7                                           # 背景の赤長方形での描画
+    8  def released(event):                     # Button1 released コールバック関数                # 大域変数 canvas
+    9    canvas.create_rectangle((2, 2), (W+3, H+3), outline='', fill='#00ff00')
+   10                                           # 背景の緑長方形での描画
+   11  def main():                              # main関数
+   12    # global canvas                          # 大域変数 canvas
+   13    root = Tk()                            # ルートフレームの作成
+   14    canvas = Canvas(root, width = W, height = H, bg='#00ff00') # canvasの作成
+   15    canvas.pack()                          # canvasの配置確定
+   16    canvas.bind('<Button-1>', pressed)     # Button1 pressed コールバック関数
+   17    canvas.bind('<ButtonRelease-1>', released) # Button1 released コールバック関数
+   18    root.mainloop()                        # ルートフレームの実行ループ開始
+   19
+   20  if __name__ == '__main__':               # 起動の確認 (コマンドラインからの起動)
+   21    main()                                 # main関数の呼出
+</pre> </code>
+<h4> ○実行コマンド </h4>
+<samp> <pre>
+    $ python background_02.py
+</pre> </samp>
+<h4> ○実行結果 </h4>
+<samp> <pre>
+    ①(main関数のglobal canvasをコメントアウトしていない)の実行結果は、background.pyと全く同じで、クリックによって色が緑から赤へと変化した。
+    ②(main関数のglobal canvasをコメントアウトしている)の実行結果は、初期の緑色のキャンバスは表示できたが、canvasをクリックしたら、以下の画像のようにエラーが発生した。
+</pre> </samp>
+<img src="background_02.png" WIDTH="50%">
+<h4> ○考察 </h4>
+<blockquote>
+    canvas内でのマウスイベントに合わせて背景色を変更するプログラムのglobalキーワードに手を加えたプログラムを「Python 3.11.7, Sonoma 14.4.1」で走らせることで、global変数の役割についての理解を深めようと思う。<br><br>
+    プログラムでは5行目のpressed関数と8行目のreleased関数の<tt>global canvas</tt>を消去しており、12行目のmain関数の<tt>global canvas</tt>をコメントアウトアウトしていないものを①、しているものを②として実行する。<br><br>
+    ②の実行結果は予想通り、コールバック関数が呼ばれた際にmain関数のローカルスコープで定義されたcanvasを参照できなかったため、エラーが起こった。しかし①の実行結果は興味深いもので、main関数以外の<tt>global canvas</tt>の行を消去しても、正しく動作した。①が動作したのはプログラムを実行したときにmain関数でcanvasをグローバル変数宣言しているからだと考える。<br><br>
+    この結果をもとになぜpressed関数、released関数では<tt>global canvas</tt>の記述をしているのかを考えた。background.pyをモジュールとしてインポートして、released関数のみが呼び出された時のために<tt>global canvas</tt>の記述をしているのではないかと推測します。
+</blockquote>
+<p>
+
+<h3>
+□課題4.0 - 4.3節 例 2: カーソルの位置の獲得と描画 marker.py
+</h3>
+<h4> ○プログラムリスト </h4>
+<code> <pre>
+    (例題なので省略)
+</pre> </code>
+<h4> ○実行コマンド </h4>
+<samp> <pre>
+    $ python marker.py
+</pre> </samp>
+<h4> ○実行結果 </h4>
+<samp> <pre>
+    (文字列の表示なし)
+</pre> </samp>
+<img src="marker.png" WIDTH="50%">
+<h4> ○考察 </h4>
+<blockquote>
+    今回はマウスのボタンが押されるたびに、カーソル位置の座標を取得しボタンの種類により異なる色の正方形を描画するプログラムを「Python 3.11.7, Sonoma 14.4.1」で走らせた。<br><br>
+    実行結果は上のようにボタンの種類によって異なる色の正方形がプロットでき、eventオブジェクトのフィールドから情報を得られることが視覚的に理解できた。<br><br>
+    今回のプログラムの実行を通してeventオブジェクトの他のフィールドフィールドについて気になったため、以下に示すpython公式ドキュメントを参考にして、次のセクションでプログラムを実行していこうと思う。
+    <a href="https://arc.net/l/quote/likmuoaw">参考サイト<a>
+    
+</blockquote>
+<p>
+
+<h3>
+□課題4.0 - 4.3節 例 2-2: イベントオブジェクトのtypeフィールド event_type.py
+</h3>
+<h4> ○プログラムリスト </h4>
+<code> <pre>
+    1  from tkinter import *                    # tkinterモジュールのimport
+    2
+    3  W, H = (200, 200)                        # canvasの幅と高さ
+    4
+    5
+    6  def pressed(event):                      # Button1 pressed コールバック関数
+    7      global canvas
+    8      canvas.create_rectangle((2, 2), (W+3, H+3), outline='', fill='#ff0000')
+    9      canvas.create_text(W/2, H/2, text='Event Type: ' + event.type, fill='white')
+   10
+   11
+   12  def released(event):                     # Button1 released コールバック関数 
+   13      global canvas
+   14      canvas.create_rectangle((2, 2), (W+3, H+3), outline='', fill='#00ff00')
+   15      canvas.create_text(W/2, H/2, text='Event Type: ' + event.type, fill='white')
+   16
+   17
+   18  def main():                              # main関数
+   19      global canvas                          # 大域変数 canvas
+   20      root = Tk()                            # ルートフレームの作成
+   21      canvas = Canvas(root, width = W, height = H, bg='#00ff00') # canvasの作成
+   22      canvas.pack()                          # canvasの配置確定
+   23      canvas.bind('<Button-1>', pressed)     # Button1 pressed コールバック関数
+   24      canvas.bind('<ButtonRelease-1>', released) # Button1 released コールバック関数
+   25      root.mainloop()                        # ルートフレームの実行ループ開始
+   26
+   27
+   28  if __name__ == '__main__':               # 起動の確認 (コマンドラインからの起動)
+   29      main()                                 # main関数の呼出
+</pre> </code>
+<h4> ○実行コマンド </h4>
+<samp> <pre>
+    $ python event_type.py
+</pre> </samp>
+<h4> ○実行結果 </h4>
+<samp> <pre>
+    ボタンを押した時に、"Event Type: 4"、離した時に"Event Type: 5"が表示された。
+</pre> </samp>
+<img src="event_type_1.png" WIDTH="50%">
+<img src="event_type_2.png" WIDTH="50%">
+<h4> ○考察 </h4>
+<blockquote>
+    今回は、マウスをクリック、または離すたびにイベントオブジェクトのtypeフィールドを表示するプログラムを「Python 3.11.7, Sonoma 14.4.1」で走らせた。<br><br>
+    例題2でイベントオブジェクトのフィールドからイベントに関する情報が得られることを学んだため、他のフィールドを試してみようと思った。実行結果は上の様で、ボタンを押した時に4、離した時に5が得られた<br><br>
+    イベントに関する様々な情報が得られれば、マウスの動きによりUIを変化させられ、よりインタラクティブなデスクトップアプリが作成できそうだと思った。
+
+</blockquote>
+<p>
+
+<h3>
+□課題4.0 - 4.3節 例 3: マウスによる線分の描画 rubberband.py
+</h3>
+<h4> ○プログラムリスト </h4>
+<code> <pre>
+    (例題なので省略)
+</pre> </code>
+<h4> ○実行コマンド </h4>
+<samp> <pre>
+    $ python rubberband.py
+</pre> </samp>
+<h4> ○実行結果 </h4>
+<samp> <pre>
+    (文字列の表示なし)
+</pre> </samp>
+<img src="rubberband.png" WIDTH="50%">
+<h4> ○考察 </h4>
+<blockquote>
+    今回は、マウスをドラッグすることでマウスの動きに合わせた線分を描くことができるプログラムを走らせた。最初にマウスボタンをプレスした位置を大域変数として共有することにより、ドラッグしていている間に新しい線分を弾き続けることができる。<br><br>
+    実行結果は上の様であり、マウスをクリックしてからドラッグしている間、カーソルの位置とクリック位置を結ぶ線分を1本更新して書き続けた。常に1本なのはマウスをドラッグしている間のコールバック関数であるdragged内で常に<tt>create_rectangle</tt>でcanvasを初期化しているからである。<br><br>
+    実行を終えて、<tt>"<B1-Motion>"</tt>を用いて、<tt>canvas.create_rectangle</tt>でのcanvasの初期化をコメントアウトすれば幾何学的な図形がかけると思ったので、次のセクションで考察を記す。
+</blockquote>
+<p>
+
+<h3>
+□課題4.0 - 4.3節 例 3-2: マウスによる複数の楕円の描画 consecutiveoval.py
+</h3>
+<h4> ○プログラムリスト </h4>
+<code> <pre>
+    1  from tkinter import *
+    2
+    3  W, H = (400, 400)
+    4
+    5
+    6  def pressed(event):
+    7      global startX, startY
+    8      startX, startY = (event.x, event.y)
+    9
+   10
+   11  def dragged(event):
+   12      global canvas, startX, startY
+   13      # canvas.create_rectangle((2, 2), (W+3, H+3), outline="", fill="#ffffff")
+   14
+   15      x, y = (event.x, event.y)
+   16      canvas.create_oval((startX, startY), (x, y), outline="black", width=1)
+   17
+   18
+   19  def main():
+   20      global canvas
+   21      root = Tk()
+   22      canvas = Canvas(root, width=W, height=H, bg="#ffffff")
+   23      canvas.pack()
+   24      canvas.bind("<Button-1>", pressed)
+   25      canvas.bind("<B1-Motion>", dragged)
+   26      root.mainloop()
+   27
+   28
+   29  if __name__ == "__main__":
+   30      main()
+</pre> </code>
+<h4> ○実行コマンド </h4>
+<samp> <pre>
+    $ python consecutiveoval.py
+</pre> </samp>
+<h4> ○実行結果 </h4>
+<samp> <pre>
+    (文字列の表示なし)
+</pre> </samp>
+<img src="consecutiveoval.png" WIDTH="50%">
+<h4> ○考察 </h4>
+<blockquote>
+    今回は、マウスがプレスされた位置とドラッグされたカーソルの位置を<tt>create_oval</tt>の引数として渡し、マウスの移動に沿って複数の楕円を描くプログラムを走らせた。<br><br>
+    canvasの左上から右下へカーソルを移動させた結果は上の様で、一定間隔で楕円が描かれた。<br><br>
+    興味深かったのは、マウスで描いた図形であるのにも関わらす、描いた図形の左上に直角が現れたことだ。課題2.0章末問題のネフロイドの描画（円による）でも同じように直線が図形に現れた。今回のケースでは、描かれるすべての楕円が共通の左上の一点を引数に持つので、その一点を通るすべての楕円の接線は共通であることが原因であると考える。
+</blockquote>
+<p>
+
+<h3>
+□課題4.0 - 4.3節 例 4: マウスを用いたお絵描き draw.py
+</h3>
+<h4> ○プログラムリスト </h4>
+<code> <pre>
+    (例題なので省略)
+</pre> </code>
+<h4> ○実行コマンド </h4>
+<samp> <pre>
+    $ python draw.py
+</pre> </samp>
+<h4> ○実行結果 </h4>
+<samp> <pre>
+    (文字列の表示なし)
+</pre> </samp>
+<img src="draw.png" WIDTH="50%">
+<h4> ○考察 </h4>
+<blockquote>
+    今回は、マウスカーソルの移動に沿って次々に短い線分を描画することで、お絵かきができるプログラムを走らせた。<br><br>
+    実行結果は上の様で、任意の図形が描けた。これはコールバック関数のdragged内で、線分の端点となるoldX, oldYの座標を更新し続けているからである。<br><br>
+    実行を終えて、apple pensilでipadにお絵描きをするのも同じ原理であると考えたため、tkinterでより高度なお絵描きアプリを再現できるか気になった。次のセクションで考察を記す。
+</blockquote>
+<p>
+
+<h3>
+□課題4.0 - 4.3節 例 4-2: マウスを用いたお絵描き（高度） draw2.py
+</h3>
+<h4> ○プログラムリスト </h4>
+<code> <pre>
+    1  from tkinter import *
+    2
+    3
+    4  def pressed_black(event):
+    5      global oldX, oldY
+    6      oldX, oldY = (event.x, event.y)
+    7
+    8
+    9  def dragged_black(event):
+   10      global canvas, oldX, oldY
+   11      x, y = (event.x, event.y)
+   12      canvas.create_line((oldX, oldY), (x, y), fill="black")
+   13      oldX, oldY = (x, y)
+   14
+   15  def pressed_red(event):
+   16      global oldX, oldY
+   17      oldX, oldY = (event.x, event.y)
+   18
+   19
+   20  def dragged_red(event):
+   21      global canvas, oldX, oldY
+   22      x, y = (event.x, event.y)
+   23      canvas.create_line((oldX, oldY), (x, y), fill="red")
+   24      oldX, oldY = (x, y)
+   25
+   26  def pressed_erase(event):
+   27      global oldX, oldY
+   28      oldX, oldY = (event.x, event.y)
+   29
+   30
+   31  def dragged_erase(event):
+   32      global canvas, oldX, oldY
+   33      x, y = (event.x, event.y)
+   34      canvas.create_rectangle((oldX, oldY), (x, y), fill="white")
+   35      oldX, oldY = (x, y)
+   36
+   37
+   38  def main():
+   39      global canvas
+   40      W, H = (400, 400)
+   41      root = Tk()
+   42      canvas = Canvas(root, width=W, height=H, bg="#ffffff")
+   43      canvas.pack()
+   44      canvas.bind("<Button-1>", pressed_black)
+   45      canvas.bind("<B1-Motion>", dragged_black)
+   46      canvas.bind("<Button-2>", pressed_red)
+   47      canvas.bind("<B2-Motion>", dragged_red)
+   48      canvas.bind("<Shift-Button-1>", pressed_erase)
+   49      canvas.bind("<Shift-B1-Motion>", dragged_erase)
+   50      root.mainloop()
+   51
+   52
+   53  if __name__ == "__main__":
+   54      main()
+</pre> </code>
+<h4> ○実行コマンド </h4>
+<samp> <pre>
+    $ python draw2.py
+</pre> </samp>
+<h4> ○実行結果 </h4>
+<samp> <pre>
+    (文字列の表示なし)
+</pre> </samp>
+<img src="draw2.png" WIDTH="50%">
+<h4> ○考察 </h4>
+<blockquote>
+    今回は、左クリックでマウスをドラッグした場合は黒色で、右クリックの場合は赤色、シフトクリックの場合は消しゴム機能を使えるような高度のお絵描きができるプログラムを走らせた。<br><br>
+    プログラムとしては左・右クリックの場合のコールバック関数をそれぞれ作成し、fillパラメタの指定を変えた。消しゴム機能は、whiteの四角形を描くことで再現した。実行結果は上の様に、黒、白で描いた絵の真ん中を消しゴムで消している。<br><br>
+    今回のプログラムではボタンの押し方によって区別したが、canvas上にボタンを配置して、大域変数としてfillcolor{string}、iserase{bool}を指定すれば、もっと多機能なお絵描きアプリが再現できるだろうと考えた。
+</blockquote>
+<p>
+
+<h3>
+□課題4.0 - 章末課題 : マウスイベントの確認 
+</h3>
+<h4> ○プログラムリスト </h4>
+<code> <pre>
+    (例題なので省略)
+</pre> </code>
+<h4> ○実行コマンド </h4>
+<samp> <pre>
+???
+</pre> </samp>
+<h4> ○実行結果 </h4>
+<samp> <pre>
+???
+</pre> </samp>
+<img src="" WIDTH="50%">
+<h4> ○考察 </h4>
+<blockquote>
+???
+</blockquote>
+<p>
+
+<h3>
+□課題4.0 - 章末課題 : マウスによる円の描画
+</h3>
+<h4> ○プログラムリスト </h4>
+<code> <pre>
+    (例題なので省略)
+</pre> </code>
+<h4> ○実行コマンド </h4>
+<samp> <pre>
+???
+</pre> </samp>
+<h4> ○実行結果 </h4>
+<samp> <pre>
+???
+</pre> </samp>
+<img src="" WIDTH="50%">
+<h4> ○考察 </h4>
+<blockquote>
+???
+</blockquote>
+<p>
+
+<h3>
+□課題4.0 - 章末課題(参考) : プログラムの改良
+</h3>
+<h4> ○プログラムリスト </h4>
+<code> <pre>
+    (例題なので省略)
+</pre> </code>
+<h4> ○実行コマンド </h4>
+<samp> <pre>
+???
+</pre> </samp>
+<h4> ○実行結果 </h4>
+<samp> <pre>
+???
+</pre> </samp>
+<img src="" WIDTH="50%">
+<h4> ○考察 </h4>
+<blockquote>
+???
+</blockquote>
+<p>
+
+<h3>
+□課題や授業に関して
+</h3>
+<h4> ○レポート作成に要した時間 </h4>
+<blockquote>
+???
+</blockquote>
+<p>
+<h4> ○特に苦労した点 </h4>
+<blockquote>
+???
+</blockquote>
+<p>
+<h4> ○授業についての感想や希望 </h4>
+<blockquote>
+???
+</blockquote>
+<p>
+
+</body>
+</html>

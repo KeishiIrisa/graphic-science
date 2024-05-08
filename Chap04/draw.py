@@ -9,7 +9,7 @@ def pressed(event):
 def dragged(event):
     global canvas, oldX, oldY
     x, y = (event.x, event.y)
-    canvas.create_line((oldX, oldY), (x, y))
+    canvas.create_line((oldX, oldY), (x, y), fill="black")
     oldX, oldY = (x, y)
 
 

@@ -10,10 +10,10 @@ def pressed(event):
 
 def dragged(event):
     global canvas, startX, startY
-    canvas.create_rectangle((2, 2), (W+3, H+3), outline="", fill="#ffffff")
+    # canvas.create_rectangle((2, 2), (W+3, H+3), outline="", fill="#ffffff")
 
     x, y = (event.x, event.y)
-    canvas.create_line((startX, startY), (x, y), fill="black")
+    canvas.create_oval((startX, startY), (x, y), outline="black", width=1)
 
 
 def main():
