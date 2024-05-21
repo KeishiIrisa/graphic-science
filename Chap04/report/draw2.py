@@ -12,6 +12,7 @@ def dragged_black(event):
     canvas.create_line((oldX, oldY), (x, y), fill="black")
     oldX, oldY = (x, y)
 
+
 def pressed_red(event):
     global oldX, oldY
     oldX, oldY = (event.x, event.y)
@@ -22,6 +23,7 @@ def dragged_red(event):
     x, y = (event.x, event.y)
     canvas.create_line((oldX, oldY), (x, y), fill="red")
     oldX, oldY = (x, y)
+
 
 def pressed_erase(event):
     global oldX, oldY

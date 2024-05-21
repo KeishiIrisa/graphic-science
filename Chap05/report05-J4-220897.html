@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title> Format for Report </title>
+</head>
+<body bgcolor="#ffffff">
+<basefont size="2">
+
+<h3>
+    表示空間と座標変換 (第 5 回)
+</h3>
+
+<div align="right"> <table>
+<tr><th align="left"> 氏名       <td align="left"> 入佐 啓士
+<tr><th align="left"> クラス     <td align="left"> 理科 1 類 37 組
+<tr><th align="left"> 学生証番号 <td align="left"> J4-220897
+</table> </div>
+
+<h3>
+□課題5.0 - 5.2節 例 1: 2次元ベクトルの定義 vectorMatrix.py
+</h3>
+<h4> ○プログラムリスト </h4>
+<code> <pre>
+    (例題なので省略)
+</pre> </code>
+<h4> ○実行コマンド </h4>
+<samp> <pre>
+    $ python vectorMatrix.py
+</pre> </samp>
+<h4> ○実行結果 </h4>
+<samp> <pre>
+    | [3 4] | = 5.0
+    [ 1 -1] + [3 4] = [4 3]
+    [3 4] - [ 1 -1] = [2 5]
+    [3 4] * 2 = [6 8]
+    [ 1 -1] * [3 4] = [ 3 -4]
+    [ 1 -1] . [3 4] = -1
+    rotate ( [3 4] ) = [-4.  3.]
+    scale&rot( [3 4] ) = [-8.  6.]
+    inv&rot ( [3 4] ) = [3. 4.]    
+</pre> </samp>
+<img src="" WIDTH="50%">
+<h4> ○考察 </h4>
+<blockquote>
+    今回は、numpyを用いて2次元ベクトルに回転、拡大縮小などの処理を行うプログラムを走らせた。<br>
+    一つ目はnorm関数を定義した。dotという内積メソッドを使い自分自身との内積を取ることで、ベクトルの長さの2乗をとり平方根を出力してベクトルの大きさを返すプログラムである。
+    二つ目はrotMatrix関数をを定義した。((cos, -sin), (sin, cos))という回転行列をnumpy.arrayクラスとして出力する関数である。
+    三つ目はscaleMatrix関数を定義した。単位行列をs倍した拡大行列をnumpy.arrayクラスとして出力する関数である。<br>
+    実行結果を見ると、正しく計算結果が反映されていることがわかる。dotメソッドの出力結果はfloat型なので[-8. 6.]というふうに出力されている。
+</blockquote>
+<p>
+
+<h3>
+□課題5.0 - 5.3節 例 1: 円の描画 myCircle.py
+</h3>
+<h4> ○プログラムリスト </h4>
+<code> <pre>
+    (例題なので省略)
+</pre> </code>
+<h4> ○実行コマンド </h4>
+<samp> <pre>
+???
+</pre> </samp>
+<h4> ○実行結果 </h4>
+<samp> <pre>
+???
+</pre> </samp>
+<img src="" WIDTH="50%">
+<h4> ○考察 </h4>
+<blockquote>
+???
+</blockquote>
+<p>
+
+<h3>
+□課題5.0 - 5.3節 例 2: 円によるカージオイドの描画 myCardioidCircle.py
+</h3>
+<h4> ○プログラムリスト </h4>
+<code> <pre>
+    (例題なので省略)
+</pre> </code>
+<h4> ○実行コマンド </h4>
+<samp> <pre>
+???
+</pre> </samp>
+<h4> ○実行結果 </h4>
+<samp> <pre>
+???
+</pre> </samp>
+<img src="" WIDTH="50%">
+<h4> ○考察 </h4>
+<blockquote>
+???
+</blockquote>
+<p>
+
+<h3>
+□課題5.0 - 5.3節 例 3: マウスによる線分の描画 myRubberband.py
+</h3>
+<h4> ○プログラムリスト </h4>
+<code> <pre>
+    (例題なので省略)
+</pre> </code>
+<h4> ○実行コマンド </h4>
+<samp> <pre>
+???
+</pre> </samp>
+<h4> ○実行結果 </h4>
+<samp> <pre>
+???
+</pre> </samp>
+<img src="" WIDTH="50%">
+<h4> ○考察 </h4>
+<blockquote>
+???
+</blockquote>
+<p>
+
+<h3>
+□課題5.0 - 章末課題 1: ダイヤモンドパターンやネフロイドの描画
+</h3>
+<h4> ○プログラムリスト </h4>
+<code> <pre>
+    (例題なので省略)
+</pre> </code>
+<h4> ○実行コマンド </h4>
+<samp> <pre>
+???
+</pre> </samp>
+<h4> ○実行結果 </h4>
+<samp> <pre>
+???
+</pre> </samp>
+<img src="" WIDTH="50%">
+<h4> ○考察 </h4>
+<blockquote>
+???
+</blockquote>
+<p>
+
+<h3>
+□課題5.0 - 章末課題 2: マウスによる円の描画
+</h3>
+<h4> ○プログラムリスト </h4>
+<code> <pre>
+    (例題なので省略)
+</pre> </code>
+<h4> ○実行コマンド </h4>
+<samp> <pre>
+???
+</pre> </samp>
+<h4> ○実行結果 </h4>
+<samp> <pre>
+???
+</pre> </samp>
+<img src="" WIDTH="50%">
+<h4> ○考察 </h4>
+<blockquote>
+???
+</blockquote>
+<p>
+
+<h3>
+□課題や授業に関して
+</h3>
+<h4> ○レポート作成に要した時間 </h4>
+<blockquote>
+???
+</blockquote>
+<p>
+<h4> ○特に苦労した点 </h4>
+<blockquote>
+???
+</blockquote>
+<p>
+<h4> ○授業についての感想や希望 </h4>
+<blockquote>
+???
+</blockquote>
+<p>
+
+</body>
+</html>
