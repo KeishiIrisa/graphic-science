@@ -1,8 +1,8 @@
 import math
 import numpy as np
-from vectorMatrix import scaleMatrix
-from myCanvas import MyCanvas
-from fractal import Fractal
+from Chap06.report.vectorMatrix import scaleMatrix
+from Chap06.report.myCanvas import MyCanvas
+from Chap06.report.fractal import Fractal
 
 
 class Sierpinski(Fractal):

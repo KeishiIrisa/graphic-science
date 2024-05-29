@@ -1,6 +1,6 @@
 import sys
 import numpy as np
-from myCanvas import MyCanvas
+from Chap06.report.myCanvas import MyCanvas
 
 
 class Fractal(object):
@@ -19,9 +19,11 @@ class Fractal(object):
         if iterations > 0:
             # ここにfor文があるから、i番目にdrawFractalが始まると、その中で、drawFractalが複数回始まる。そしてそれぞれのdrawFractalのiterationsが0になれば三角形の描画を始める。
             for i in range(len(self.mats)):
+                # mat.dot(self.vecs[i]+vec)は次の反復して描く図形の頂点へのベクトル
                 self.drawFractal(iterations-1, mat.dot(self.mats[i]), mat.dot(self.vecs[i])+vec)
         else:
             points = []
+            # それぞれのパーツで描画する点の数
             for i in range(len(self.base)):
                 points.append(mat.dot(self.base[i])+vec)
             self.drawObject(points)
